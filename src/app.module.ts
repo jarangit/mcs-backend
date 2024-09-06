@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ProductModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -19,6 +19,7 @@ import { UsersModule } from './users/users.module';
       synchronize: true, // ตั้งค่า true ใน dev environment เท่านั้น
     }),
     UsersModule,
+    ProductModule,
   ],
   controllers: [AppController],
   providers: [AppService],
