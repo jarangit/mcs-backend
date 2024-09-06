@@ -5,8 +5,8 @@ import { Product } from 'src/entity/product.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product])], // เพิ่มบรรทัดนี้
-  controllers: [ProductController],
-  providers: [ProductService],
+    imports: [TypeOrmModule.forFeature([Product])], // เพิ่มบรรทัดนี้
+    controllers: [ProductController],
+    providers: [ProductService],
 })
 export class ProductModule {}

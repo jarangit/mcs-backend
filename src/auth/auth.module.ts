@@ -6,15 +6,15 @@ import { JwtStrategy } from './jwt.strategy';
 import { UsersModule } from 'src/users/users.module';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule,
-    JwtModule.register({
-      secret: 'mcs', // ใช้ secret ที่ปลอดภัยสำหรับ production
-      signOptions: { expiresIn: '1h' },
-    }),
-  ],
-  providers: [AuthService, JwtStrategy],
-  exports: [AuthService],
+    imports: [
+        UsersModule,
+        PassportModule,
+        JwtModule.register({
+            secret: 'mcs', // ใช้ secret ที่ปลอดภัยสำหรับ production
+            signOptions: { expiresIn: '1h' },
+        }),
+    ],
+    providers: [AuthService, JwtStrategy],
+    exports: [AuthService],
 })
 export class AuthModule {}

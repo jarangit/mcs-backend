@@ -9,7 +9,7 @@ services:
       MYSQL_USER: mcs_user               # กำหนดชื่อผู้ใช้
       MYSQL_PASSWORD: '1234'       # กำหนดรหัสผ่านของผู้ใช้
     ports:
-      - "3306:3306"                       # แมปพอร์ต 3306 ของ local กับ container
+      - "3366:3306"                       # แมปพอร์ต 3306 ของ local กับ container
     volumes:
       - mysql_data:/var/lib/mysql         # ใช้ volume เพื่อเก็บข้อมูลของฐานข้อมูล
 
