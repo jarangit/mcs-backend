@@ -48,9 +48,8 @@ export class ProductService {
     }
 
     async findProductByUserId(userId: number): Promise<Product[]> {
-        const res = this.productsRepository.find({
+        const res = await this.productsRepository.find({
             where: { user: { id: userId } },
-            relations: ['user'],
         });
         return res;
     }

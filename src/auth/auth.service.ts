@@ -7,8 +7,8 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class AuthService {
     constructor(
-        private readonly userService: UsersService,
         private readonly jwtService: JwtService,
+        private readonly userService: UsersService,
     ) {}
 
     async validateUser(username: string, password: string): Promise<any> {
@@ -17,8 +17,9 @@ export class AuthService {
         if (user && comparePassword) {
             const { password, ...result } = user;
             return result;
+        } else {
+            throw new UnauthorizedException('Invalid credentials');
         }
-        throw new UnauthorizedException('Invalid credentials');
     }
 
     async login(user: any) {
