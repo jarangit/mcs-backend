@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { error } from 'console';
 import { ProductDTO } from 'src/dto/product.dto';
 import { Product } from 'src/entity/product.entity';
 import { User } from 'src/entity/user.entity';
@@ -14,7 +15,7 @@ export class ProductService {
 
         @InjectRepository(User)
         private userRepository: Repository<User>,
-    ) {}
+    ) { }
 
     async create({
         product,
@@ -37,6 +38,23 @@ export class ProductService {
         } else {
             throw new Error('User not found');
         }
+    }
+
+    async updateProduct(payload: {
+        id: number;
+        body: { product: Partial<Product>; userId: number };
+    }) {
+        const { id, body } = payload;
+        const product = await this.productsRepository.findOne({
+            where: { id },
+            relations: ['user'],
+        });
+        const userId = product?.user.id;
+        const isOwner = body.userId === userId;
+        if (!product && !isOwner) {
+            throw new NotFoundException('not found product');
+        }
+        return await this.productsRepository.save(body.product);
     }
 
     async findAll(): Promise<Product[]> {

@@ -1,10 +1,15 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProductModule } from './product/product.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { HeadersMiddleware } from './headers/headers.middleware';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
+import { HeaderGuard } from './header/header.guard';
+import { HeadersInterceptor } from './headers/headers.interceptor';
+import { JwtService } from '@nestjs/jwt';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -21,6 +26,23 @@ import { AuthModule } from './auth/auth.module';
         ProductModule,
     ],
     controllers: [AppController],
-    providers: [AppService],
+    providers: [
+        AppService,
+        JwtService,
+        // {
+        //     provide: APP_GUARD,
+        //     useClass: HeaderGuard,
+        // },
+        // {
+        //     provide: APP_INTERCEPTOR,
+        //     useClass: HeadersInterceptor,
+        // },
+    ],
 })
-export class AppModule {}
+export class AppModule {
+    configure(consumer: MiddlewareConsumer) {
+        consumer
+            .apply(HeadersMiddleware)
+            .forRoutes({ path: 'auth/*', method: RequestMethod.ALL }); // ใช้กับทุก route
+    }
+}
