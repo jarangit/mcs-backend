@@ -16,19 +16,28 @@ export class LikeService {
     private usersRepository: Repository<User>,
     @InjectRepository(Product)
     private productsRepository: Repository<Product>
-  ){}
+  ) { }
 
-  async create(payload:LikeDTO){
-    const {userId, productId} = payload
-    const like = new Like()
+  async create(payload: LikeDTO) {
+    const { userId, productId } = payload
     const user = await this.usersRepository.findOne({
-      where:{id:userId}
+      where: { id: userId }
     })
     const product = await this.productsRepository.findOne({
-      where:{id:productId}
+      where: { id: productId }
     })
-    like.user = user
-    like.product = product
-    return await this.likesRepository.save(like)
+    const data = {
+      user,
+      product
+    }
+    return await this.likesRepository.save(data)
+  }
+
+  async getByProductId(productId: number) {
+    const likes = await this.likesRepository.find({
+      where: { product: { id: productId } },
+      relations: ['user']
+    })
+    return likes
   }
 }

@@ -24,6 +24,6 @@ export class User {
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];
     
-    @OneToMany(() => Like, like => like.user)
+    @OneToMany(() => Like, (like) => like.user)
     likes: Like[]
 }

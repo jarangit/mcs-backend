@@ -92,7 +92,7 @@ export class ProductService {
     findById(id: number) {
         return this.productsRepository.findOne({
             where:{id},
-            relations:['user','category',]
+            relations:['user','category']
         });
     }
 

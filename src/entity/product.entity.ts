@@ -27,6 +27,6 @@ export class Product {
     @ManyToOne(() => Category, (category) => category.products)
     category: Category;
 
-    @OneToMany(() => Like, like => like.user)
+    @OneToMany(() => Like, (like) => like.product)
     likes: Like[]
 }
