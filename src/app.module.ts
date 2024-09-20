@@ -11,6 +11,8 @@ import { HeaderGuard } from './header/header.guard';
 import { HeadersInterceptor } from './headers/headers.interceptor';
 import { JwtService } from '@nestjs/jwt';
 import { CategoryModule } from './category/category.module';
+import { LikeController } from './like/like.controller';
+import { LikeModule } from './like/like.module';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -26,6 +28,7 @@ import { CategoryModule } from './category/category.module';
         UsersModule,
         ProductModule,
         CategoryModule,
+        LikeModule,
     ],
     controllers: [AppController],
     providers: [

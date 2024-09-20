@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
     Column,
     Entity,
@@ -24,4 +25,5 @@ export class Category {
 
     @OneToMany(() => Product, (product) => product.category)
     products: Product[];
+
 }

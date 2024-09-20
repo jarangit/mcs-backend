@@ -34,7 +34,7 @@ export class CategoryController {
   }
 
   @Get('/list')
-  getAllByUserID(@Req() req: Request,) {
+  getAllByUserId(@Req() req: Request,) {
     const user = req['user'];
     return this.categoryService.getAllByUserId(user.id)
   }

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -89,7 +90,10 @@ export class ProductService {
     }
 
     findById(id: number) {
-        return this.productsRepository.findOneBy({ id });
+        return this.productsRepository.findOne({
+            where:{id},
+            relations:['user','category',]
+        });
     }
 
     async remove(id: number): Promise<void> {

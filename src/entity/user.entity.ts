@@ -1,6 +1,8 @@
+/* eslint-disable prettier/prettier */
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { Product } from './product.entity';
 import { Category } from './category.entity';
+import { Like } from './like.entity';
 
 @Entity()
 export class User {
@@ -21,4 +23,7 @@ export class User {
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];
+    
+    @OneToMany(() => Like, like => like.user)
+    likes: Like[]
 }

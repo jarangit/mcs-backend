@@ -1,6 +1,8 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+/* eslint-disable prettier/prettier */
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './user.entity';
 import { Category } from './category.entity';
+import { Like } from './like.entity';
 
 @Entity()
 export class Product {
@@ -24,4 +26,7 @@ export class Product {
 
     @ManyToOne(() => Category, (category) => category.products)
     category: Category;
+
+    @OneToMany(() => Like, like => like.user)
+    likes: Like[]
 }
