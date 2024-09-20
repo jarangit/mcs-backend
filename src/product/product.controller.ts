@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Headers, Param, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { ProductDTO } from 'src/dto/product.dto';
 import { ProductService } from './product.service';
 import { Product } from 'src/entity/product.entity';
@@ -22,8 +22,6 @@ export class ProductController {
 
   ) {
     const user = req['user'];
-    console.log("🚀 ~ ProductController ~ user:", productId)
-
     return this.productsService.updateProduct({
       userId: user.id, productData: product,
       id: +productId
@@ -39,6 +37,14 @@ export class ProductController {
   @Get('user/:userId')
   async findByUserId(@Param('userId') userId: string): Promise<Product[]> {
     const res = await this.productsService.findProductByUserId(+userId);
+    return res;
+  }
+
+  @Get('category/:categoryId')
+  async findByCategoryId(
+    @Param('categoryId') id: string,
+  ): Promise<Product[]> {
+    const res = await this.productsService.findProductByCategoryId(+id);
     return res;
   }
 

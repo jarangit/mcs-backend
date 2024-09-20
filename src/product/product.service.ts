@@ -3,6 +3,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { error } from 'console';
 import { ProductDTO } from 'src/dto/product.dto';
+import { Category } from 'src/entity/category.entity';
 import { Product } from 'src/entity/product.entity';
 import { User } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
@@ -15,6 +16,9 @@ export class ProductService {
 
         @InjectRepository(User)
         private userRepository: Repository<User>,
+
+        @InjectRepository(Category)
+        private categoryRepository: Repository<Category>,
     ) { }
 
     async create({
@@ -40,7 +44,7 @@ export class ProductService {
 
     async updateProduct(payload: {
         id: number;
-        productData: Partial<Product>;
+        productData: Partial<ProductDTO>;
         userId: number;
     }) {
         const { id, productData, userId } = payload;
@@ -48,6 +52,12 @@ export class ProductService {
             where: { id },
             relations: ['user'],
         });
+        if (productData.categoryId) {
+            const category = await this.categoryRepository.findOne({
+                where: { id: productData.categoryId },
+            });
+            product.category = category;
+        }
         const isOwner = product.user.id === userId;
         if (!product && !isOwner) {
             throw new NotFoundException('not found product');
@@ -71,13 +81,16 @@ export class ProductService {
         return res;
     }
 
+    async findProductByCategoryId(categoryId: number): Promise<Product[]> {
+        const res = await this.productsRepository.find({
+            where: { category: { id: categoryId } },
+        });
+        return res;
+    }
+
     findById(id: number) {
         return this.productsRepository.findOneBy({ id });
     }
-
-    // findByCond(predicate: (product: ProductDTO) => boolean) {
-    //   return this.productsRepository.filter((item) => predicate(item));
-    // }
 
     async remove(id: number): Promise<void> {
         await this.productsRepository.delete(id);
