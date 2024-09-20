@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class HeadersMiddleware implements NestMiddleware {
-    constructor(private readonly jwt: JwtService) { }
+    constructor(private readonly jwt: JwtService) {}
     use(req: any, res: any, next: () => void) {
         const authHeader = req.headers['authorization'];
         if (!authHeader) {
@@ -16,7 +16,11 @@ export class HeadersMiddleware implements NestMiddleware {
         }
         try {
             const rawToken = authHeader.split(' ')[1];
-            this.jwt.verify(rawToken, { secret: 'mcs' });
+            const user = this.jwt.verify(rawToken, { secret: 'mcs' });
+            req['user'] = {
+                ...user,
+                id: user.sub,
+            };
         } catch (error) {
             throw new UnauthorizedException('Please login');
         }

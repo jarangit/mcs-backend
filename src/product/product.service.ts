@@ -27,8 +27,6 @@ export class ProductService {
         const user = await this.userRepository.findOne({
             where: { id: userId },
         });
-        console.table(user);
-
         if (user) {
             const newProduct = this.productsRepository.create({
                 ...product,
@@ -42,19 +40,20 @@ export class ProductService {
 
     async updateProduct(payload: {
         id: number;
-        body: { product: Partial<Product>; userId: number };
+        productData: Partial<Product>;
+        userId: number;
     }) {
-        const { id, body } = payload;
+        const { id, productData, userId } = payload;
         const product = await this.productsRepository.findOne({
             where: { id },
             relations: ['user'],
         });
-        const userId = product?.user.id;
-        const isOwner = body.userId === userId;
+        const isOwner = product.user.id === userId;
         if (!product && !isOwner) {
             throw new NotFoundException('not found product');
         }
-        return await this.productsRepository.save(body.product);
+        Object.assign(product, productData);
+        return await this.productsRepository.save(product);
     }
 
     async findAll(): Promise<Product[]> {

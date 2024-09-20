@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Headers, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Headers, Param, Post, Put, Req } from '@nestjs/common';
 import { ProductDTO } from 'src/dto/product.dto';
 import { ProductService } from './product.service';
 import { Product } from 'src/entity/product.entity';
@@ -9,22 +9,25 @@ export class ProductController {
   constructor(private readonly productsService: ProductService) { }
 
   @Post('/create')
-  create(@Body() body: { product: Partial<Product>, userId: number }): Promise<Product> {
-    const { product, userId } = body
-    console.table(body)
-    return this.productsService.create({ product, userId });
+  create(@Req() req: Request, @Body() product: Partial<Product>): Promise<Product> {
+    const user = req['user'];
+    return this.productsService.create({ product, userId: user.id });
   }
 
-  @Put('update/:id')
+  @Put('update/:productId')
   update(
-    @Param('id') id: number,
-    @Headers() header,
-    @Body() body: {
-      product: Partial<Product>,
-      userId: number
-    }
+    @Param('productId') productId: string,
+    @Req() req: Request,
+    @Body() product: Partial<Product>,
+
   ) {
-    return this.productsService.updateProduct({ id, body })
+    const user = req['user'];
+    console.log("🚀 ~ ProductController ~ user:", productId)
+
+    return this.productsService.updateProduct({
+      userId: user.id, productData: product,
+      id: +productId
+    })
   }
 
   @Get()

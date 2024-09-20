@@ -10,6 +10,7 @@ import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { HeaderGuard } from './header/header.guard';
 import { HeadersInterceptor } from './headers/headers.interceptor';
 import { JwtService } from '@nestjs/jwt';
+import { CategoryModule } from './category/category.module';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -24,6 +25,7 @@ import { JwtService } from '@nestjs/jwt';
         }),
         UsersModule,
         ProductModule,
+        CategoryModule,
     ],
     controllers: [AppController],
     providers: [
