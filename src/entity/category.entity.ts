@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import {
     Column,
+    CreateDateColumn,
     Entity,
     ManyToOne,
     OneToMany,
@@ -19,6 +20,9 @@ export class Category {
 
     @Column({ nullable: true })
     description: string;
+
+    @CreateDateColumn({ type: 'timestamp', nullable: true })
+    createdAt: Date | null;
 
     @ManyToOne(() => User, (user) => user.categories)
     user: User;

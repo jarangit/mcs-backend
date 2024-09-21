@@ -1,4 +1,11 @@
-import { Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+    BeforeInsert,
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Product } from './product.entity';
 import { User } from './user.entity';
 
@@ -9,6 +16,9 @@ export class Like {
 
     @ManyToOne(() => User, (user) => user.likes)
     user: User;
+
+    @CreateDateColumn({ type: 'timestamp', nullable: true })
+    createdAt: Date | null;
 
     @ManyToOne(() => Product, (product) => product.likes)
     product: Product;

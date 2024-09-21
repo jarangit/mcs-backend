@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } from 'typeorm';
 import { Product } from './product.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
@@ -17,6 +17,9 @@ export class User {
 
     @Column()
     email: string;
+
+    @CreateDateColumn({ type: 'timestamp', nullable: true })
+    createdAt: Date | null;
 
     @OneToMany(() => Product, (product) => product.user)
     products: Product[];
