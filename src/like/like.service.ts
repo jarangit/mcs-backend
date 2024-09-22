@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LikeDTO } from 'src/dto/like.dto';
 import { Like } from 'src/entity/like.entity';
@@ -26,13 +26,50 @@ export class LikeService {
     const product = await this.productsRepository.findOne({
       where: { id: productId }
     })
-    const data = {
-      user,
-      product
+    if (product) {
+      const data = {
+        user,
+        product
+      }
+      return await this.likesRepository.save(data)
+    } else {
+      throw new HttpException("Not found product",  HttpStatus.NOT_FOUND)
     }
-    return await this.likesRepository.save(data)
+
   }
 
+  async toggle(payload: LikeDTO) {
+    // check user use to like this product already
+    // if yes do like
+    // if no unlike
+    const { userId, productId } = payload
+    const foundLiked = await this.likesRepository.findOne({
+      where: {
+        user: { id: userId },
+        product: { id: productId }
+      }
+    })
+    if (foundLiked) {
+      // do liked
+      return await this.unLike(foundLiked.id)
+
+    } else {
+      // do unlike
+      return await this.create({ ...payload })
+    }
+  }
+
+  async unLike(id: number) {
+    const foundLike = await this.likesRepository.findOne({
+      where: { id: +id }
+    })
+    if (foundLike) {
+      return this.likesRepository.remove(foundLike)
+    } else {
+      throw new NotFoundException('Not found liked')
+    }
+
+  }
   async getByProductId(productId: number) {
     const likes = await this.likesRepository.find({
       where: { product: { id: productId } },

@@ -17,6 +17,15 @@ export class LikeController {
     return this.likeService.create({ userId: user.id, productId: +productId })
   }
 
+  @Post('/toggle/:productId')
+  toggle(
+    @Param('productId') productId: string,
+    @Req() req: Request
+  ) {
+    const user = req['user']
+    return this.likeService.toggle({ userId: user.id, productId: +productId })
+  }
+
   @Get('/product/:productId')
   getByProductId(
     @Param('productId') productId: string
