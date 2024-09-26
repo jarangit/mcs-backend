@@ -13,6 +13,7 @@ import { JwtService } from '@nestjs/jwt';
 import { CategoryModule } from './category/category.module';
 import { LikeController } from './like/like.controller';
 import { LikeModule } from './like/like.module';
+import { LoggerMiddleware } from './middelwave/logging';
 @Module({
     imports: [
         TypeOrmModule.forRoot({
@@ -47,7 +48,7 @@ import { LikeModule } from './like/like.module';
 export class AppModule {
     configure(consumer: MiddlewareConsumer) {
         consumer
-            .apply(HeadersMiddleware)
+            .apply(HeadersMiddleware, LoggerMiddleware)
             .forRoutes({ path: 'auth/*', method: RequestMethod.ALL }); // ใช้กับทุก route
     }
 }
