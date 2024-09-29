@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entity/user.entity';
 import { Repository } from 'typeorm';
@@ -12,6 +12,12 @@ export class UsersService {
     ) {}
 
     async createUser(username: string, password: string): Promise<User> {
+        const dupUserName = await this.userRepository.findOne({
+            where: { username: username },
+        });
+        if (dupUserName) {
+            throw new HttpException('dup username', HttpStatus.BAD_REQUEST);
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const newUser = this.userRepository.create({
             username,
