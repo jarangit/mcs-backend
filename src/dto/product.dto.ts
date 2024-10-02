@@ -4,4 +4,6 @@ export interface ProductDTO {
     id: number;
     price: number;
     readonly categoryId?: number;
+    readonly user?: any;
+
 }
