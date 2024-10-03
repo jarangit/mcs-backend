@@ -16,8 +16,8 @@ import { LikeModule } from "./like/like.module";
 import { LoggerMiddleware } from "./middelwave/logging";
 import { UtilsService } from "./utils/utils.service";
 import { UtilsModule } from "./utils/utils.module";
-import { ProductModule as PublicProductModule } from "./public/product/product.module";
-import { UserModule } from './public/user/user.module';
+import { ProductModule as PublicProductModule } from "./public-api/product/product.module";
+import { UserModule } from './public-api/user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
