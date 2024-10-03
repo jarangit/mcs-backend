@@ -14,8 +14,10 @@ import { CategoryModule } from "./category/category.module";
 import { LikeController } from "./like/like.controller";
 import { LikeModule } from "./like/like.module";
 import { LoggerMiddleware } from "./middelwave/logging";
-import { UtilsService } from './utils/utils.service';
-import { UtilsModule } from './utils/utils.module';
+import { UtilsService } from "./utils/utils.service";
+import { UtilsModule } from "./utils/utils.module";
+import { ProductModule as PublicProductModule } from "./public/product/product.module";
+import { UserModule } from './public/user/user.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -33,6 +35,8 @@ import { UtilsModule } from './utils/utils.module';
     CategoryModule,
     LikeModule,
     UtilsModule,
+    PublicProductModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [
