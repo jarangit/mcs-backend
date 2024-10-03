@@ -1,7 +1,13 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "src/entity/category.entity";
 import { User } from "src/entity/user.entity";
+import { ProductService } from "src/product/product.service";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -11,6 +17,7 @@ export class CategoryService {
     private categoryRepository: Repository<Category>,
     @InjectRepository(User)
     private userRepository: Repository<User>,
+    private readonly productService: ProductService,
   ) {}
 
   async create({
@@ -57,6 +64,14 @@ export class CategoryService {
 
   async delete(payload: { categoryId: string; userId: string }) {
     const { categoryId, userId } = payload;
+    const foundProduct =
+      await this.productService.findProductByCategoryId(+categoryId);
+    if (foundProduct) {
+      throw new HttpException(
+        "Product exists in this category",
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     try {
       const category = await this.categoryRepository.findOne({
         where: { id: +categoryId },

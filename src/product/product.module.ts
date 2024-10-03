@@ -11,5 +11,6 @@ import { UtilsModule } from "src/utils/utils.module";
   imports: [TypeOrmModule.forFeature([Product, User, Category]), UtilsModule], // เพิ่มบรรทัดนี้
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

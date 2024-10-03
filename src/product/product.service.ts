@@ -69,10 +69,7 @@ export class ProductService {
     Object.assign(product, productData);
     return await this.productsRepository.save(product);
   }
-  async removePassword(data: any) {
-    const { password, ...newData } = data;
-    return newData
-  }
+
 
   async findAll(): Promise<ProductDTO[]> {
     const products: ProductDTO[] = await this.productsRepository.find({
@@ -92,6 +89,7 @@ export class ProductService {
   async findProductByUserId(userId: number): Promise<Product[]> {
     const res = await this.productsRepository.find({
       where: { user: { id: userId } },
+      relations: ["category"],
     });
     return res;
   }
