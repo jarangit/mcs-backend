@@ -29,7 +29,7 @@ export class ProductController {
   }
 
   @Get()
-  async findAll(): Promise<Product[]> {
+  async findAll(): Promise<ProductDTO[]> {
     const res = await this.productsService.findAll();
     return res;
   }
