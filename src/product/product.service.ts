@@ -7,6 +7,7 @@ import { ProductDTO } from "src/dto/product.dto";
 import { Category } from "src/entity/category.entity";
 import { Product } from "src/entity/product.entity";
 import { User } from "src/entity/user.entity";
+import { UtilsService } from "src/utils/utils.service";
 import { Repository } from "typeorm";
 
 @Injectable()
@@ -19,8 +20,10 @@ export class ProductService {
     private userRepository: Repository<User>,
 
     @InjectRepository(Category)
-    private categoryRepository: Repository<Category>
-  ) {}
+    private categoryRepository: Repository<Category>,
+
+    private readonly utilsService: UtilsService,
+  ) { }
 
   async create({
     product,
@@ -75,9 +78,12 @@ export class ProductService {
     const products: ProductDTO[] = await this.productsRepository.find({
       relations: ["user"],
     });
-    await products.forEach(async (p: any) => {
+    products.forEach(async (p: any) => {
       if (p && p.user) {
-        p.user = await this.removePassword(p.user);
+        p.user = await this.utilsService.removeKeysObj({
+          obj: p.user,
+          keysToRemove: ["password"],
+        });
       }
     });
     return products;

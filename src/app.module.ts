@@ -14,6 +14,8 @@ import { CategoryModule } from "./category/category.module";
 import { LikeController } from "./like/like.controller";
 import { LikeModule } from "./like/like.module";
 import { LoggerMiddleware } from "./middelwave/logging";
+import { UtilsService } from './utils/utils.service';
+import { UtilsModule } from './utils/utils.module';
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -30,11 +32,13 @@ import { LoggerMiddleware } from "./middelwave/logging";
     ProductModule,
     CategoryModule,
     LikeModule,
+    UtilsModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     JwtService,
+    UtilsService,
     // {
     //     provide: APP_GUARD,
     //     useClass: HeaderGuard,
