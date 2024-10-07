@@ -5,6 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { error } from "console";
 import { ProductDTO } from "src/dto/product.dto";
 import { Category } from "src/entity/category.entity";
+import { Collection } from "src/entity/collection.entity";
 import { Product } from "src/entity/product.entity";
 import { User } from "src/entity/user.entity";
 import { UtilsService } from "src/utils/utils.service";
@@ -22,6 +23,9 @@ export class ProductService {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
 
+    @InjectRepository(Collection)
+    private collectionRepository: Repository<Collection>,
+
     private readonly utilsService: UtilsService,
   ) { }
 
@@ -29,16 +33,21 @@ export class ProductService {
     product,
     userId,
   }: {
-    product: Partial<Product>;
+    product: Partial<ProductDTO>;
     userId: number;
   }): Promise<Product> {
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
+
     if (user) {
+      const collection = await this.collectionRepository.findOne({
+        where: { id: product.collectionId },
+      })
       const newProduct = this.productsRepository.create({
         ...product,
         user,
+        collection: collection ?? null,
       });
       return this.productsRepository.save(newProduct);
     } else {
@@ -89,7 +98,7 @@ export class ProductService {
   async findProductByUserId(userId: number): Promise<Product[]> {
     const res = await this.productsRepository.find({
       where: { user: { id: userId } },
-      relations: ["category"],
+      relations: ["collection"],
     });
     return res;
   }
@@ -100,11 +109,17 @@ export class ProductService {
     });
     return res;
   }
+  async findProductByCollectionId(collectionId: number): Promise<Product[]> {
+    const res = await this.productsRepository.find({
+      where: { category: { id: collectionId } },
+    });
+    return res;
+  }
 
   findById(id: number) {
     return this.productsRepository.findOne({
       where: { id },
-      relations: ["user", "category"],
+      relations: ["user", "collection"],
     });
   }
 

@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, CreateDateColumn } f
 import { Product } from './product.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
+import { Collection } from './collection.entity';
 
 @Entity()
 export class User {
@@ -26,7 +27,11 @@ export class User {
 
     @OneToMany(() => Category, (category) => category.user)
     categories: Category[];
-    
+
+    @OneToMany(() => Collection, (collection) => collection.user)
+    collections: Collection[];
+
+
     @OneToMany(() => Like, (like) => like.user)
     likes: Like[]
 }

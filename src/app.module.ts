@@ -4,20 +4,16 @@ import { AppService } from "./app.service";
 import { ProductModule } from "./product/product.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UsersModule } from "./users/users.module";
-import { AuthModule } from "./auth/auth.module";
 import { HeadersMiddleware } from "./headers/headers.middleware";
-import { APP_GUARD, APP_INTERCEPTOR } from "@nestjs/core";
-import { HeaderGuard } from "./header/header.guard";
-import { HeadersInterceptor } from "./headers/headers.interceptor";
 import { JwtService } from "@nestjs/jwt";
 import { CategoryModule } from "./category/category.module";
-import { LikeController } from "./like/like.controller";
 import { LikeModule } from "./like/like.module";
 import { LoggerMiddleware } from "./middelwave/logging";
 import { UtilsService } from "./utils/utils.service";
 import { UtilsModule } from "./utils/utils.module";
 import { ProductModule as PublicProductModule } from "./public-api/product/product.module";
-import { UserModule } from './public-api/user/user.module';
+import { UserModule } from "./public-api/user/user.module";
+import { CollectionModule } from "./collection/collection.module";
 @Module({
   imports: [
     TypeOrmModule.forRoot({
@@ -37,6 +33,7 @@ import { UserModule } from './public-api/user/user.module';
     UtilsModule,
     PublicProductModule,
     UserModule,
+    CollectionModule,
   ],
   controllers: [AppController],
   providers: [

@@ -24,7 +24,7 @@ export class ProductService {
   async getProductById(id: number) {
     const product: any = await this.productRepository.findOne({
       where: { id },
-      relations: ["user", "category"],
+      relations: ["user", "collection"],
     });
     if (product.user) {
       product.user.password = undefined;

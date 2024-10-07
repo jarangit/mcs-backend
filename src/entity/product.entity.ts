@@ -3,6 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDat
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
+import { Collection } from './collection.entity';
 
 @Entity()
 export class Product {
@@ -23,12 +24,15 @@ export class Product {
 
     @CreateDateColumn({ type: 'timestamp', nullable: true })
     createdAt: Date | null;
-    
+
     @ManyToOne(() => User, (user) => user.products)
     user: User;
 
     @ManyToOne(() => Category, (category) => category.products)
     category: Category;
+
+    @ManyToOne(() => Collection, (collection) => collection.products)
+    collection: Collection;
 
     @OneToMany(() => Like, (like) => like.product)
     likes: Like[]
