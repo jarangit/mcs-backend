@@ -11,12 +11,27 @@ export class ProductService {
   ) { }
   async getProducts() {
     const products: any[] = await this.productRepository.find({
-      relations: ["user"],
+      relations: ["user", "likes", "likes.user"],
+      select: {
+        user: {
+          id: true, // เลือกเฉพาะฟิลด์ที่ต้องการของ user
+          username: true, // เช่น username
+          email: true,
+          profileImage: true,
+        },
+        likes: {
+          id: true,
+          user: {
+            id: true, // ดึงเฉพาะข้อมูล user ที่ต้องการใน likes เช่น id และ username
+            username: true,
+            email: true,
+            profileImage: true,
+          },
+        },
+      },
     });
-    products.forEach((p) => {
-      if (p.user) {
-        p.user.password = undefined;
-      }
+    products.forEach((product) => {
+      product.totalLikes = product.likes.length; // คำนวณจำนวนไลก์
     });
     return products;
   }

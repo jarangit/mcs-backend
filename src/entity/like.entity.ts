@@ -14,11 +14,11 @@ export class Like {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne(() => User, (user) => user.likes)
-  user: User;
-
   @CreateDateColumn({ type: "timestamp", nullable: true })
   createdAt: Date | null;
+
+  @ManyToOne(() => User, (user) => user.likes)
+  user: User;
 
   @ManyToOne(() => Product, (product) => product.likes)
   product: Product;

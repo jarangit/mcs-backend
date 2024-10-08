@@ -11,6 +11,11 @@ import { User } from "src/entity/user.entity";
 import { UtilsService } from "src/utils/utils.service";
 import { Repository } from "typeorm";
 
+const mockUrlImage = [
+  'https://img.freepik.com/free-photo/autumn-landscape-background-illustration_23-2151844215.jpg?t=st=1728354534~exp=1728358134~hmac=63253537ffc611fe7232ea8f64d39bc810b196b0a278d541bbb791e899add082&w=740',
+  'https://img.freepik.com/premium-vector/farm-landscape-farm-field-retro-sketch-hand-drawn-rural-area-farm-sketch-farm-drawing_1168528-4825.jpg?w=1380',
+  'https://img.freepik.com/free-vector/golf-course-background-hand-drawn-style_23-2147768692.jpg?t=st=1728354730~exp=1728358330~hmac=adc06cb30753c732b32a501c3fea5156d3d48ce98f114a672b38cd14b36199cb&w=1380',
+]
 @Injectable()
 export class ProductService {
   constructor(
@@ -40,12 +45,14 @@ export class ProductService {
       where: { id: userId },
     });
 
+
     if (user) {
       const collection = await this.collectionRepository.findOne({
         where: { id: product.collectionId },
       })
       const newProduct = this.productsRepository.create({
         ...product,
+        thumbnail: this.utilsService.getRandomImg(mockUrlImage),
         user,
         collection: collection ?? null,
       });
@@ -98,7 +105,7 @@ export class ProductService {
   async findProductByUserId(userId: number): Promise<Product[]> {
     const res = await this.productsRepository.find({
       where: { user: { id: userId } },
-      relations: ["collection"],
+      relations: ["collection", "user"],
     });
     return res;
   }

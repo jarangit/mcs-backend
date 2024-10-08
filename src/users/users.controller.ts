@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Post } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { AuthService } from "src/auth/auth.service";
 
@@ -20,5 +20,10 @@ export class UsersController {
     const { username, password } = body;
     const user = await this.authService.validateUser(username, password);
     return this.authService.login(user);
+  }
+
+  @Get(":id")
+  async getUserById(@Param("id") id: string) {
+    return this.userService.getUserById(+id);
   }
 }

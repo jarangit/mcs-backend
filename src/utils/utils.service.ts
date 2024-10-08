@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UtilsService {
+  [x: string]: any;
   removeKeysObj({
     obj,
     keysToRemove,
@@ -14,5 +15,9 @@ export class UtilsService {
       delete newObj[key];
     });
     return newObj;
+  }
+  getRandomImg(data: string[]): string {
+    const randomIndex = Math.floor(Math.random() * data.length);
+    return data[randomIndex];
   }
 }

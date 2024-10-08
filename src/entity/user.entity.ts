@@ -14,6 +14,9 @@ export class User {
     username: string;
 
     @Column()
+    profileImage: string;
+
+    @Column()
     password: string;
 
     @Column()

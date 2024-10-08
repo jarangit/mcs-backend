@@ -14,6 +14,9 @@ export class Product {
     name: string;
 
     @Column()
+    thumbnail: string;
+
+    @Column()
     description: string;
 
     @Column('decimal', { precision: 5, scale: 2 })
