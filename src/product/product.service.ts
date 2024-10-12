@@ -45,6 +45,10 @@ export class ProductService {
       where: { id: userId },
     });
 
+    const mockData = {
+      description: "การวาดภาพทะเลทำให้ฉันรู้สึกถึงความสงบและอิสระของธรรมชาติ เส้นขอบฟ้าที่เชื่อมต่อระหว่างน้ำและฟ้าสะท้อนถึงความไม่มีที่สิ้นสุดของจินตนาการ เสียงคลื่นที่กระทบฝั่งช่วยให้ฉันปล่อยความคิดและเติมพลังสร้างสรรค์ในทุกลายเส้น"
+    }
+
 
     if (user) {
       const collection = await this.collectionRepository.findOne({
@@ -53,6 +57,7 @@ export class ProductService {
       const newProduct = this.productsRepository.create({
         ...product,
         thumbnail: this.utilsService.getRandomImg(mockUrlImage),
+        description: mockData.description,
         user,
         collection: collection ?? null,
       });
