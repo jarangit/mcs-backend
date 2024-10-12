@@ -14,8 +14,12 @@ import { UtilsModule } from "./utils/utils.module";
 import { ProductModule as PublicProductModule } from "./public-api/product/product.module";
 import { UserModule } from "./public-api/user/user.module";
 import { CollectionModule } from "./collection/collection.module";
+import { ConfigModule } from "@nestjs/config";
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: "mysql",
       host: "localhost",
