@@ -14,7 +14,11 @@ import { Repository } from "typeorm";
 const mockUrlImage = [
   'https://img.freepik.com/free-photo/autumn-landscape-background-illustration_23-2151844215.jpg?t=st=1728354534~exp=1728358134~hmac=63253537ffc611fe7232ea8f64d39bc810b196b0a278d541bbb791e899add082&w=740',
   'https://img.freepik.com/premium-vector/farm-landscape-farm-field-retro-sketch-hand-drawn-rural-area-farm-sketch-farm-drawing_1168528-4825.jpg?w=1380',
-  'https://img.freepik.com/free-vector/golf-course-background-hand-drawn-style_23-2147768692.jpg?t=st=1728354730~exp=1728358330~hmac=adc06cb30753c732b32a501c3fea5156d3d48ce98f114a672b38cd14b36199cb&w=1380',
+  'https://img.freepik.com/free-photo/retro-cameras_144627-12214.jpg?t=st=1728830732~exp=1728834332~hmac=7df6f0ba72894caa9e344f378b120d60c98ad9b652b8e235b848c3bba07e7567&w=2000',
+  'https://img.freepik.com/free-photo/headstock-classical-fingerboard-wood-fretboard_1172-289.jpg?ga=GA1.1.1806154199.1728353290&semt=ais_hybrid-rr-similar',
+  'https://img.freepik.com/free-photo/electric-guitar-still-life_23-2151376253.jpg?ga=GA1.1.1806154199.1728353290&semt=ais_hybrid-rr-similar',
+  'https://img.freepik.com/free-photo/colorful-slip-unisex-streetwear-sneakers-fashion_53876-101518.jpg?t=st=1728830655~exp=1728834255~hmac=a1032442c0a40b0b73b178e2b87bfcf864aa951fcfac6aeefe3236821bfc704a&w=2000'
+
 ]
 @Injectable()
 export class ProductService {

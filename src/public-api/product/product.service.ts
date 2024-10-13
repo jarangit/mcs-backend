@@ -53,7 +53,7 @@ export class ProductService {
   async findByUserId(userId: number) {
     return await this.productRepository.find({
       where: { user: { id: userId } },
-      relations: ["user", "likes", "likes.user"],
+      relations: ["user", "likes", "likes.user", "collection"],
       ...this.queryProduct,
     });
   }
