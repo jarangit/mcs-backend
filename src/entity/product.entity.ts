@@ -25,6 +25,9 @@ export class Product {
     @Column()
     stock: number;
 
+    @Column({ default: 0 })
+    viewCount: number;
+
     @CreateDateColumn({ type: 'timestamp', nullable: true })
     createdAt: Date | null;
 

@@ -27,7 +27,12 @@ export class ProductService {
   constructor(
     @InjectRepository(Product)
     private productRepository: Repository<Product>,
-  ) { }
+  ) {}
+
+  async incrementViewCount(productId: number): Promise<void> {
+    await this.productRepository.increment({ id: productId }, "viewCount", 1);
+  }
+
   async getProducts() {
     const products: any[] = await this.productRepository.find({
       relations: ["user", "likes", "likes.user"],
