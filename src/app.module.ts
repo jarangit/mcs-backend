@@ -15,6 +15,7 @@ import { ProductModule as PublicProductModule } from "./public-api/product/produ
 import { UserModule } from "./public-api/user/user.module";
 import { CollectionModule } from "./collection/collection.module";
 import { ConfigModule } from "@nestjs/config";
+import { StCategoryModule } from "./system-data/st-category/st-category.module";
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,6 +39,7 @@ import { ConfigModule } from "@nestjs/config";
     PublicProductModule,
     UserModule,
     CollectionModule,
+    StCategoryModule,
   ],
   controllers: [AppController],
   providers: [
