@@ -6,7 +6,9 @@ import { error } from "console";
 import { ProductDTO } from "src/dto/product.dto";
 import { Category } from "src/entity/category.entity";
 import { Collection } from "src/entity/collection.entity";
+import { Like } from "src/entity/like.entity";
 import { Product } from "src/entity/product.entity";
+import { StCategory } from "src/entity/st-category.entity";
 import { User } from "src/entity/user.entity";
 import { UtilsService } from "src/utils/utils.service";
 import { Repository } from "typeorm";
@@ -35,6 +37,12 @@ export class ProductService {
     @InjectRepository(Collection)
     private collectionRepository: Repository<Collection>,
 
+    @InjectRepository(StCategory)
+    private stCategoryRepository: Repository<StCategory>,
+
+    @InjectRepository(Like)
+    private likeRepository: Repository<Like>,
+
     private readonly utilsService: UtilsService,
   ) { }
 
@@ -58,12 +66,17 @@ export class ProductService {
       const collection = await this.collectionRepository.findOne({
         where: { id: product.collectionId },
       })
+      const stCategory = await this.stCategoryRepository.findOne({
+        where: { id: product.STCategoryId },
+      })
+      console.log("🚀 ~ ProductService ~ stCategory:", stCategory)
       const newProduct = this.productsRepository.create({
         ...product,
         thumbnail: this.utilsService.getRandomImg(mockUrlImage),
         description: mockData.description,
         user,
         collection: collection ?? null,
+        STCategory: stCategory ?? null,
       });
       return this.productsRepository.save(newProduct);
     } else {
@@ -114,7 +127,7 @@ export class ProductService {
   async findProductByUserId(userId: number): Promise<Product[]> {
     const res = await this.productsRepository.find({
       where: { user: { id: userId } },
-      relations: ["collection", "user"],
+      relations: ["collection", "user", "STCategory"],
     });
     return res;
   }
@@ -139,7 +152,8 @@ export class ProductService {
     });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.productsRepository.delete(id);
+  async remove(productId: number): Promise<void> {
+    await this.likeRepository.delete({ product: { id: productId } });
+    await this.productsRepository.delete(productId);
   }
 }

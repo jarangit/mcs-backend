@@ -4,6 +4,7 @@ import { User } from './user.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
 import { Collection } from './collection.entity';
+import { StCategory } from './st-category.entity';
 
 @Entity()
 export class Product {
@@ -37,12 +38,12 @@ export class Product {
     @ManyToOne(() => Category, (category) => category.products)
     category: Category;
 
-    @ManyToOne(() => Category, (category) => category.products)
-    STCategory: Category;
+    @ManyToOne(() => StCategory, (item) => item.products)
+    STCategory: StCategory;
 
     @ManyToOne(() => Collection, (collection) => collection.products)
     collection: Collection;
 
-    @OneToMany(() => Like, (like) => like.product)
+    @OneToMany(() => Like, (like) => like.product, { onDelete: 'CASCADE' })
     likes: Like[]
 }
