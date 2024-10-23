@@ -6,7 +6,7 @@ export interface ProductDTO {
     price: number;
     readonly categoryId?: number;
     readonly collectionId?: number;
-    readonly STCategoryId?: number;
+    readonly stCategoryId?: number;
     readonly user?: any;
 
 }

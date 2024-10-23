@@ -53,6 +53,7 @@ export class ProductService {
     product: Partial<ProductDTO>;
     userId: number;
   }): Promise<Product> {
+    console.log("🚀 ~ ProductService ~ product:", product)
     const user = await this.userRepository.findOne({
       where: { id: userId },
     });
@@ -67,7 +68,7 @@ export class ProductService {
         where: { id: product.collectionId },
       })
       const stCategory = await this.stCategoryRepository.findOne({
-        where: { id: product.STCategoryId },
+        where: { id: product.stCategoryId },
       })
       console.log("🚀 ~ ProductService ~ stCategory:", stCategory)
       const newProduct = this.productsRepository.create({
