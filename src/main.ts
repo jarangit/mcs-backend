@@ -11,7 +11,7 @@ async function bootstrap() {
     app.useGlobalFilters(new HttpExceptionFilter());
     // เปิดใช้งาน CORS
     app.enableCors({
-        origin: "http://localhost:3000", // อนุญาตให้ร้องขอจาก Origin นี้
+        origin: process.env.CLIENT_URL, // อนุญาตให้ร้องขอจาก Origin นี้
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Method ที่อนุญาต
         allowedHeaders: ["Content-Type", "Authorization"], // Headers ที่อนุญาต
         credentials: true, // อนุญาต Cookie หากจำเป็น
