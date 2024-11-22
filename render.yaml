@@ -19,7 +19,7 @@ services:
         protocol: tcp
 
   # MySQL Database Service
-  - type: service
+  - type: pserv
     name: mysql-service
     env: docker
     dockerfilePath: ./mysql.Dockerfile  # ใช้ Dockerfile สำหรับ MySQL
