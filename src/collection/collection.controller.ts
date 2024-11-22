@@ -1,15 +1,15 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put, Req } from '@nestjs/common';
-import { Collection } from 'src/entity/Collection.entity';
 import { Request } from 'express';
 import { CollectionService } from './collection.service';
+import { MyCollection } from 'src/entity/collection.entity';
 
 @Controller('auth/collection')
 export class CollectionController {
   constructor(private collectionService: CollectionService) { }
 
   @Post('/create')
-  create(@Req() req: Request, @Body() body: Partial<Collection>): Promise<Collection> {
+  create(@Req() req: Request, @Body() body: Partial<MyCollection>): Promise<MyCollection> {
     const user = req['user'];
     return this.collectionService.create({ collection: body, userId: user.id });
   }
@@ -18,7 +18,7 @@ export class CollectionController {
   update(
     @Param('id') id: string,
     @Req() req: Request,
-    @Body() data: Partial<Collection>
+    @Body() data: Partial<MyCollection>
   ) {
     const user = req['user'];
     return this.collectionService.update({ collectionId: id, data, userId: user.id })

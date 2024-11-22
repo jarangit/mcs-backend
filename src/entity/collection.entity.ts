@@ -1,35 +1,32 @@
-/* eslint-disable prettier/prettier */
 import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { User } from './user.entity';
-import { Product } from './product.entity';
+    Column,
+    CreateDateColumn,
+    Entity,
+    ManyToOne,
+    OneToMany,
+    PrimaryGeneratedColumn,
+} from "typeorm";
+import { User } from "./user.entity";
+import { Product } from "./product.entity";
 
 @Entity()
-export class Collection {
-  @PrimaryGeneratedColumn()
-  id: number;
+export class MyCollection {
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  name: string;
+    @Column()
+    name: string;
 
-  @Column({ nullable: true })
-  description: string;
+    @Column({ nullable: true })
+    description: string;
 
-  @CreateDateColumn({ type: 'timestamp', nullable: true })
-  createdAt: Date | null;
+    @CreateDateColumn({ type: "timestamp", nullable: true })
+    createdAt: Date | null;
 
-  @ManyToOne(() => User, (user) => user.collections)
-  user: User;
+    @ManyToOne(() => User, (user) => user.collections)
+    user: User;
 
-  @OneToMany(() => Product, (product) => product.category)
-  @OneToMany(() => Product, (product) => product.collection)
-  products: Product[];
-
-
+    @OneToMany(() => Product, (product) => product.category)
+    @OneToMany(() => Product, (product) => product.collection)
+    products: Product[];
 }

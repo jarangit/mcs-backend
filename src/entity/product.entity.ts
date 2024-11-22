@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDat
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
-import { Collection } from './collection.entity';
+import { MyCollection } from './collection.entity';
 import { StCategory } from './st-category.entity';
 
 @Entity()
@@ -41,8 +41,8 @@ export class Product {
     @ManyToOne(() => StCategory, (item) => item.products)
     STCategory: StCategory;
 
-    @ManyToOne(() => Collection, (collection) => collection.products)
-    collection: Collection;
+    @ManyToOne(() => MyCollection, (collection) => collection.products)
+    collection: MyCollection;
 
     @OneToMany(() => Like, (like) => like.product, { onDelete: 'CASCADE' })
     likes: Like[]

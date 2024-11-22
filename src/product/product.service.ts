@@ -5,7 +5,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { error } from "console";
 import { ProductDTO } from "src/dto/product.dto";
 import { Category } from "src/entity/category.entity";
-import { Collection } from "src/entity/collection.entity";
+import { MyCollection } from "src/entity/collection.entity";
 import { Like } from "src/entity/like.entity";
 import { Product } from "src/entity/product.entity";
 import { StCategory } from "src/entity/st-category.entity";
@@ -34,8 +34,8 @@ export class ProductService {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
 
-    @InjectRepository(Collection)
-    private collectionRepository: Repository<Collection>,
+    @InjectRepository(MyCollection)
+    private collectionRepository: Repository<MyCollection>,
 
     @InjectRepository(StCategory)
     private stCategoryRepository: Repository<StCategory>,

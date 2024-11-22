@@ -4,10 +4,10 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "src/entity/user.entity";
 import { ProductModule } from "src/product/product.module";
 import { CollectionService } from "./collection.service";
-import { Collection } from "src/entity/collection.entity";
+import { MyCollection } from "src/entity/collection.entity";
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Collection, User]), ProductModule], // Import Category entity
+  imports: [TypeOrmModule.forFeature([MyCollection, User]), ProductModule], // Import Category entity
   controllers: [CollectionController],
   providers: [CollectionService],
 })
