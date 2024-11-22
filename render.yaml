@@ -1,0 +1,25 @@
+services:
+  - type: web  # This specifies the type of service (web application)
+    name: nestjs-app  # Name of your service
+    env: node  # Environment type (Node.js)
+    branch: main  # The branch to deploy from your Git repository
+    plan: free  # Use 'starter' or other plans depending on your requirements
+    buildCommand: npm install && npm run build  # Command to build your application
+    startCommand: npm run start:prod  # Command to start the production server
+    healthCheckPath: /health  # Optional: Path to check health (if defined in your NestJS app)
+    autoDeploy: true  # Automatically deploy on commits to the branch
+    envVars:  # Environment variables required for your application
+      - key: DATABASE_URL
+        value: mysql://mcs_user:1234@mysql-render-service:3306/mcs_db
+      - key: NODE_ENV
+        value: production
+    # Specify the Docker image to build (optional if using Dockerfile in repository)
+    docker:
+      filePath: ./Dockerfile  # Specify the path to your Dockerfile (if using Docker)
+      buildContext: ./  # Build context (defaults to root folder)
+    regions:
+      - singapore  # Choose the closest region for better performance
+    # Define ports (default 3000 for NestJS)
+    ports:
+      - port: 3000
+        protocol: tcp
