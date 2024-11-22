@@ -15,6 +15,7 @@ services:
    
 
   # MySQL Database Service
+  - type: pserv
     name: mysql-service
     env: docker
     dockerfilePath: ./mysql.Dockerfile  # ใช้ Dockerfile สำหรับ MySQL
