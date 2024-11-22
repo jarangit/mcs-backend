@@ -3,6 +3,8 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDat
 import { User } from './user.entity';
 import { Category } from './category.entity';
 import { Like } from './like.entity';
+import { Collection } from './collection.entity';
+import { StCategory } from './st-category.entity';
 
 @Entity()
 export class Product {
@@ -13,6 +15,9 @@ export class Product {
     name: string;
 
     @Column()
+    thumbnail: string;
+
+    @Column()
     description: string;
 
     @Column('decimal', { precision: 5, scale: 2 })
@@ -21,15 +26,24 @@ export class Product {
     @Column()
     stock: number;
 
+    @Column({ default: 0 })
+    viewCount: number;
+
     @CreateDateColumn({ type: 'timestamp', nullable: true })
     createdAt: Date | null;
-    
+
     @ManyToOne(() => User, (user) => user.products)
     user: User;
 
     @ManyToOne(() => Category, (category) => category.products)
     category: Category;
 
-    @OneToMany(() => Like, (like) => like.product)
+    @ManyToOne(() => StCategory, (item) => item.products)
+    STCategory: StCategory;
+
+    @ManyToOne(() => Collection, (collection) => collection.products)
+    collection: Collection;
+
+    @OneToMany(() => Like, (like) => like.product, { onDelete: 'CASCADE' })
     likes: Like[]
 }

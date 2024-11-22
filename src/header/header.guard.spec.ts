@@ -1,7 +1,7 @@
-import { HeaderGuard } from './header.guard';
+import { HeaderGuard } from "./header.guard";
 
-describe('HeaderGuard', () => {
-  it('should be defined', () => {
+describe("HeaderGuard", () => {
+  it("should be defined", () => {
     expect(new HeaderGuard()).toBeDefined();
   });
 });
