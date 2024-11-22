@@ -1,25 +1,36 @@
 services:
-  - type: web  # This specifies the type of service (web application)
-    name: nestjs-app  # Name of your service
-    env: node  # Environment type (Node.js)
-    branch: main  # The branch to deploy from your Git repository
-    plan: free  # Use 'starter' or other plans depending on your requirements
-    buildCommand: npm install && npm run build  # Command to build your application
-    startCommand: npm run start:prod  # Command to start the production server
-    healthCheckPath: /health  # Optional: Path to check health (if defined in your NestJS app)
-    autoDeploy: true  # Automatically deploy on commits to the branch
-    envVars:  # Environment variables required for your application
+  - type: web  # ระบุว่าเป็นเว็บแอปพลิเคชัน
+    name: nestjs-app
+    env: node
+    branch: main
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start:prod
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
       - key: DATABASE_URL
-        value: mysql://mcs_user:1234@mysql-render-service:3306/mcs_db
-      - key: NODE_ENV
-        value: production
-    # Specify the Docker image to build (optional if using Dockerfile in repository)
-    docker:
-      filePath: ./Dockerfile  # Specify the path to your Dockerfile (if using Docker)
-      buildContext: ./  # Build context (defaults to root folder)
+        value: mysql://mcs_user:1234@mysql-service:3306/mcs_db
     regions:
-      - singapore  # Choose the closest region for better performance
-    # Define ports (default 3000 for NestJS)
+      - singapore
     ports:
       - port: 3000
         protocol: tcp
+
+  - type: database  # ระบุว่าเป็นฐานข้อมูล
+    name: mysql-service
+    env: docker
+    docker:
+      image: mysql:8.0
+      command:
+        - --default-authentication-plugin=mysql_native_password
+      envVars:
+        - key: MYSQL_ROOT_PASSWORD
+          value: root
+        - key: MYSQL_DATABASE
+          value: mcs_db
+        - key: MYSQL_USER
+          value: mcs_user
+        - key: MYSQL_PASSWORD
+          value: 1234
+    plan: free
