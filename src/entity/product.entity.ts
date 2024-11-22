@@ -36,7 +36,7 @@ export class Product {
     user: User;
 
     @ManyToOne(() => Category, (category) => category.products)
-    category: Category;
+    category: Category;6023
 
     @ManyToOne(() => StCategory, (item) => item.products)
     STCategory: StCategory;
