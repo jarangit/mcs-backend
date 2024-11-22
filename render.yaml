@@ -1,5 +1,6 @@
 services:
-  - type: web  # ระบุว่าเป็นเว็บแอปพลิเคชัน
+  # NestJS Application
+  - type: web
     name: nestjs-app
     env: node
     branch: main
@@ -17,19 +18,21 @@ services:
       - port: 3000
         protocol: tcp
 
+  # MySQL Database Service
+  - type: private_service
     name: mysql-service
     env: docker
-    docker:
-      image: mysql:8.0
-      command:
-        - --default-authentication-plugin=mysql_native_password
-      envVars:
-        - key: MYSQL_ROOT_PASSWORD
-          value: root
-        - key: MYSQL_DATABASE
-          value: mcs_db
-        - key: MYSQL_USER
-          value: mcs_user
-        - key: MYSQL_PASSWORD
-          value: 1234
+    dockerfilePath: ./mysql.Dockerfile  # ใช้ Dockerfile สำหรับ MySQL
     plan: free
+    envVars:
+      - key: MYSQL_ROOT_PASSWORD
+        value: root
+      - key: MYSQL_DATABASE
+        value: mcs_db
+      - key: MYSQL_USER
+        value: mcs_user
+      - key: MYSQL_PASSWORD
+        value: 1234
+    ports:
+      - port: 3306
+        protocol: tcp
