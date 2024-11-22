@@ -17,7 +17,6 @@ services:
       - port: 3000
         protocol: tcp
 
-  - type: database  # ระบุว่าเป็นฐานข้อมูล
     name: mysql-service
     env: docker
     docker:
