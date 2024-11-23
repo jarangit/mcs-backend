@@ -16,6 +16,6 @@ async function bootstrap() {
         allowedHeaders: ["Content-Type", "Authorization"], // Headers ที่อนุญาต
         credentials: true, // อนุญาต Cookie หากจำเป็น
     });
-    await app.listen(process.env.PORT, "0.0.0.0");
+    await app.listen(process.env.PORT || 3000, "0.0.0.0");
 }
 bootstrap();
