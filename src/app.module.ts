@@ -21,6 +21,30 @@ import { StCategoryModule } from "./system-data/st-category/st-category.module";
         ConfigModule.forRoot({
             isGlobal: true,
         }),
+        TypeOrmModule.forRootAsync({
+            useFactory: () => {
+                const isLocal = process.env.ENV === "local"; // ตรวจสอบ ENV
+                if (isLocal) {
+                    return {
+                        type: "mysql",
+                        host: "localhost",
+                        port: 3366,
+                        username: "mcs_user",
+                        password: "1234",
+                        database: "mcs_db",
+                        entities: [__dirname + "/**/*.entity{.ts,.js}"],
+                        synchronize: true, // ใช้เฉพาะใน Local Dev
+                    };
+                } else {
+                    return {
+                        type: "mysql",
+                        url: process.env.DATABASE_URL,
+                        autoLoadEntities: true,
+                        synchronize: false, // ปิดใน Production
+                    };
+                }
+            },
+        }),
         // TypeOrmModule.forRoot({
         //     type: "mysql",
         //     host: "localhost",
@@ -31,12 +55,12 @@ import { StCategoryModule } from "./system-data/st-category/st-category.module";
         //     entities: [__dirname + "/**/*.entity{.ts,.js}"], // ตั้งค่าที่อยู่ของ entities
         //     synchronize: true, // ตั้งค่า true ใน dev environment เท่านั้น
         // }),
-        TypeOrmModule.forRoot({
-            type: "mysql",
-            url: process.env.DATABASE_URL,
-            autoLoadEntities: true,
-            synchronize: true, // ควรปิดใน Production
-        }),
+        // TypeOrmModule.forRoot({
+        //     type: "mysql",
+        //     url: process.env.DATABASE_URL,
+        //     autoLoadEntities: true,
+        //     synchronize: true, // ควรปิดใน Production
+        // }),
         UsersModule,
         ProductModule,
         CategoryModule,
